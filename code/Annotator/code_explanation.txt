@@ -1,0 +1,216 @@
+Code Explanation
+
+python:
+
+  import os
+  import pandas as pd
+  import matplotlib.pyplot as plt
+  from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+  import tkinter as tk
+  from tkinter import filedialog
+
+Imports Explanation:
+
+  os: File path operations
+  pandas: Data loading and manipulation
+  matplotlib: Data visualization
+  FigureCanvasTkAgg: Embedding plots in Tkinter
+  tkinter: GUI framework
+  filedialog: File saving dialog
+
+python:
+
+  # Configuration
+  target_col = 'Analog Input #14 P Backhoff Track'
+  time_column = 'Time'
+  annotations = []  # Stores all created annotations
+
+Configuration Variables:
+
+  target_col: Signal column to visualize  
+  time_column: Time axis column
+  annotations: Global list to store all annotations
+  
+python:
+
+  class EventAnnotator:
+      def __init__(self, root):
+          # GUI initialization
+          self.root = root
+          self.root.title("Signal Annotator")
+          self.root.geometry("1200x800")
+          
+          # Control buttons frame
+          control_frame = tk.Frame(root)
+          control_frame.pack(pady=10, fill=tk.X)
+          
+          # Button definitions
+          self.load_button = tk.Button(control_frame, text="Load Next CSV", command=self.load_next_file)
+          self.save_button = tk.Button(control_frame, text="Save All Annotations", command=self.save_annotations)
+          self.undo_button = tk.Button(control_frame, text="Undo", command=self.undo_last_annotation)
+          
+          # Plot setup
+          self.fig, self.ax = plt.subplots(figsize=(12, 6))
+          self.canvas = FigureCanvasTkAgg(self.fig, master=root)
+          self.canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+          self.canvas.mpl_connect("button_press_event", self.on_click)
+          
+          # Initialize plot
+          self.ax.set_title("Initializing...")
+          self.ax.grid(True)
+          self.canvas.draw()
+          
+          # File handling
+          self.input_files = self.find_csv_files('data')
+          self.current_file_idx = -1
+          self.data = None
+          self.file = None
+          self.event_start_time = None
+          self.event_lines = []
+          
+          # Load first file
+          if self.input_files:
+              self.root.after(100, self.load_next_file)
+
+Class Initialization:
+Creates main application window
+Sets up control buttons
+Initializes matplotlib plot embedded in Tkinter
+Connects mouse click event handler
+Searches for CSV files in data/ directory
+Loads first file automatically
+
+python:
+
+    def find_csv_files(self, root_dir):
+        return sorted([os.path.join(root, f) 
+                     for root, _, files in os.walk(root_dir) 
+                     for f in files if f.endswith('.csv')])
+File Discovery:
+
+  Recursively finds all CSV files in directory
+  Returns sorted list of full file paths
+
+python:
+
+    def load_next_file(self):
+        # File cycling logic
+        self.current_file_idx += 1
+        if self.current_file_idx >= len(self.input_files):
+            self.current_file_idx = -1
+            return
+        
+        try:
+            # Data loading
+            df = pd.read_csv(
+                file_path,
+                encoding='cp1252',
+                sep=';',
+                skiprows=31,
+                dtype=str,
+                on_bad_lines='warn'
+            )
+            
+            # Data cleaning
+            df.columns = [c.strip() for c in df.columns]
+            # ... (data processing code)
+            
+            # Plotting
+            self.ax.clear()
+            self.ax.plot(df[time_column], df[target_col], 
+                         color="#0e74bd", linewidth=1.5, alpha=0.8)
+            # ... (plot configuration)
+            
+            # Update state
+            self.event_start_time = None
+            self.event_lines.clear()
+            self.data = df
+            self.file = file_path
+            
+        except Exception as e:
+            # Error handling
+
+File Loading Workflow:
+
+  Cycles through file list
+  Loads CSV with specific encoding and delimiter
+  Cleans column names and numeric data
+  Handles European decimal formats
+  Plots the time-series signal
+  Resets annotation state
+
+python:
+
+    def on_click(self, event):
+        if event.xdata is None or self.data is None:
+            return
+
+        click_time = event.xdata
+
+        if self.event_start_time is None:  # First click
+            self.event_start_time = click_time
+            line = self.ax.axvline(click_time, color='blue', linestyle='--')
+            self.event_lines.append(line)
+        else:  # Second click
+            start = min(self.event_start_time, click_time)
+            end = max(self.event_start_time, click_time)
+            
+            # Save annotation
+            annotations.append({
+                'filename': os.path.basename(self.file),
+                'file_path': os.path.relpath(self.file, 'data'),
+                'start_time': start,
+                'end_time': end,
+                'duration': end - start
+            })
+            
+            # Visual feedback
+            span = self.ax.axvspan(start, end, color='red', alpha=0.3)
+            self.event_lines.append(span)
+            self.event_start_time = None
+            
+        self.canvas.draw()
+
+Annotation Workflow:
+
+  First click: Marks start time with blue dashed line
+  Second click: Creates shaded region between start/end
+  Records annotation with metadata
+  Calculates event duration automatically
+  Resets state for next annotation
+
+python:
+
+    def undo_last_annotation(self):
+        if self.event_lines:
+            last = self.event_lines.pop()
+            last.remove()
+            if annotations:
+                annotations.pop()
+            self.canvas.draw()
+
+Undo Functionality:
+  Removes last visual element from plot
+  Removes corresponding annotation entry
+  Redraws canvas to update display
+
+python:
+
+    def save_annotations(self):
+        if not annotations:
+            return
+            
+        df = pd.DataFrame(annotations)
+        save_path = filedialog.asksaveasfilename(
+            defaultextension=".csv",
+            filetypes=[("CSV files", "*.csv")]
+        )
+        
+        if save_path:
+            df.to_csv(save_path, index=False)
+
+Annotation Saving:
+
+  Converts annotations to DataFrame
+  Opens file save dialog
+  Exports to CSV with chosen filename
