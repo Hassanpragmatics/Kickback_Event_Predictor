@@ -2,8 +2,6 @@
 
 **Signal Annotator** is a Python GUI application for visualizing time-series data and annotating events in signals. Built with Tkinter and Matplotlib.
 
----
-
 ## Features
 
 - Load and visualize CSV time-series data  
@@ -13,8 +11,6 @@
 - Batch processing of multiple files  
 - Interactive plotting with Matplotlib
 
----
-
 ## Requirements
 
 - Python 3.6+
@@ -22,8 +18,6 @@
   - `pandas`
   - `matplotlib`
   - `tkinter` (usually included with standard Python)
-
----
 
 ## Installation
 
