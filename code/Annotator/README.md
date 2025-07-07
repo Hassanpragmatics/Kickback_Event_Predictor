@@ -26,3 +26,14 @@ Clone the repository:
 ```bash
 git clone https://github.com/yourusername/signal-annotator.git
 cd signal-annotator
+
+Install required dependencies:
+
+```bash
+pip install pandas matplotlib
+
+## Usage
+
+- Create a data/ directory (if it doesn't exist) and place your CSV time-series files inside.
+
+- Run the application:
