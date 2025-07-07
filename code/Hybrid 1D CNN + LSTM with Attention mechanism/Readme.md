@@ -31,22 +31,25 @@ This project predicts machine failures using sensor data analysis with deep lear
 - Place sensor data files in data/ directory
 - Prepare annotations CSV (annotations/model_mid.csv)
 - Directory Structure
-Hybrid 1D CNN + LSTM with Attention mechanism/Used_7_files 
+
+```bash
+Hybrid 1D CNN + LSTM with Attention mechanism/Used_7_files
 ├── data/                   # Sensor data files (CSV)
 ├── annotations/            # Annotation files
 │   └── model_mid.csv       # Main annotation file
-├── lstm_model.py                # Main training script
-└── best_models/model.pth # Trained model (generated)
-
+├── lstm_model.py           # Main training script
+└── best_models/
+    └── model.pth           # Trained model (generated)
+```
 or
-
+```bash
 Hybrid 1D CNN + LSTM with Attention mechanism/Using_half_dataset 
 ├── data/                   # Sensor data files (CSV)
 ├── annotations/            # Annotation files
 │   └── model_mid.csv       # Main annotation file
 ├── lstm_model.py                # Main training script
 └── best_models/model.pth # Trained model (generated)
-
+```
 
 ## How to Run
 Execute the main script:
