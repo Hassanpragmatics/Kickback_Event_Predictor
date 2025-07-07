@@ -1,6 +1,9 @@
 # Kickback_Event_Predictor
 The Kickback Event Predictor is an advanced deep learning system designed to forecast dangerous kickback events in industrial machinery by analyzing sensor data patterns. This project addresses a critical safety challenge in manufacturing environments where sudden machine reactions can cause severe injuries and equipment damage.
 
+### ⚠️ Milling Kickback Example
+![Kickback illustration showing a wood piece ejected from a table saw toward an operator](milling_kickback.png)
+
 ## Key Innovations:
 - Early Warning System: Predicts hazardous events 0.5-3 second before occurrence
 - Hybrid Deep Learning: Combines 1D CNNs for feature extraction, Attention mechanisms for critical pattern recognition, and LSTMs for temporal modeling
