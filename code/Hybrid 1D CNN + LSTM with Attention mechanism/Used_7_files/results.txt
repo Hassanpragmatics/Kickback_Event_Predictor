@@ -1,0 +1,28 @@
+Total files used: 7 
+
+parameterset_10
+_2024-12-18_11-16-26.csv
+_2024-12-18_11-24-23.csv
+_2024-12-18_11-29-26.csv
+_2024-12-18_11-33-51.csv
+_2024-12-18_11-36-51.csv
+_2024-12-18_12-19-55.csv
+_2024-12-18_12-23-49.csv
+
+
+accuracy                           0.88     11888
+   macro avg       0.76      0.89      0.80     11888
+weighted avg       0.92      0.88      0.89     11888
+
+accuracy 0.88
+ROC AUC: 0.9323
+PR AUC: 0.7501
+
+Predicting file: data\Parameterset_10\_2024-12-18_11-24-23.csv
+
+Original annotation: 27.135135s to 29.681375s
+Warning period: 26.635175s to 29.681375s
+Event period: 29.681395s to 29.683395s
+Predicted warning at: 25.400035s
+Lead time before warning: 1.235140s
+

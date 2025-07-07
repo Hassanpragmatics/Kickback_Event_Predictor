@@ -1,0 +1,12 @@
+
+Final Evaluation by half-data-model:
+           loss: 0.0435
+            auc: 0.8941
+         pr_auc: 0.4168
+   balanced_acc: 0.5084
+          kappa: 0.0287
+
+Final Evaluation by one-by-third-data-model:
+        loss: 0.0422
+        auc: 0.8996
+        pr_auc: 0.4358
