@@ -48,7 +48,7 @@ Use the interface:
 
 ## File Structure
 ```bash
-project-root/
+Annotator-root/
 ├── data/            # Folder for input CSV files
 ├── annotator.py     # Main application code
 └── README.md        # This documentation
