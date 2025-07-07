@@ -1,4 +1,4 @@
-# Sensor Anomaly Prediction using Temporal Attention and LSTM
+# Industrial Machinery Failure Prediction System
 
 ## Overview
 This project implements a deep learning model for predicting sensor anomalies in industrial machinery data. The model combines convolutional layers for feature extraction, temporal attention for focusing on critical time steps, and bidirectional LSTM for sequence modeling.
