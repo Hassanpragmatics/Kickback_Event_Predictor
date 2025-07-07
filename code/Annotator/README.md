@@ -53,3 +53,46 @@ Annotator-root/
 ├── annotator.py     # Main application code
 └── README.md        # This documentation
 ```
+## How to Run:
+- Organize your CSV files:
+- Create data/ folder in same directory as script
+- Place CSV files in data/ (can have subdirectories)
+
+## File format requirements:
+- Must contain columns named exactly:
+- Time (time values)
+- Analog Input #14 P Backhoff Track (signal values)
+- Uses semicolon (;) as delimiter
+- First 31 rows are skipped (header information)
+
+## Run the script:
+
+```bash
+python annotator.py
+```
+
+## Usage Tips
+
+- Click sequentially to mark event start and end
+
+- Files are loaded in alphabetical order
+
+- Annotations persist between files until saved
+
+- Adjust target_col in code for different signals
+
+- Zero-value signals automatically get adjusted Y-axis
+
+- Error messages appear directly on the plot
+
+## Customization: 
+Modify these variables for different datasets:
+
+```bash
+target_col = 'Your_Signal_Column_Name'
+time_column = 'Your_Time_Column_Name'
+Adjust CSV reading parameters if needed:
+
+# In load_next_file method:
+pd.read_csv(..., skiprows=31, sep=';', encoding='cp1252')
+```
