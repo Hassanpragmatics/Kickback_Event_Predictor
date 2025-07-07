@@ -15,8 +15,10 @@ This project demonstrates a machine learning approach to predict backlog events 
 
 ## Installation
 ```bash
-git clone https://github.com/yourusername/backlog-prediction.git
-cd backlog-prediction
+git clone https://github.com/Hassanpragmatics/Kickback_Event_Predictor.git
+cd code
+cd CNN_model
+
 pip install pandas numpy matplotlib scikit-learn tensorflow
 ```
 
