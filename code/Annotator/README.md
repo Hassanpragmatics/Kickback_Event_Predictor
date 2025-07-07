@@ -24,8 +24,9 @@
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/signal-annotator.git
-cd signal-annotator
+git clone https://github.com/Hassanpragmatics/Kickback_Event_Predictor.git
+cd code
+cd Annotator
 ```
 Install required dependencies:
 
