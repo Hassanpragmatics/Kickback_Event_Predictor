@@ -47,7 +47,7 @@ Use the interface:
 - Click "Undo" to remove the last annotation
 - Click "Save All Annotations" to export annotations to CSV
 
-## File Structure
+## Directory Structure
 ```bash
 Annotator-root/
 ├── data/            # Folder for input CSV files
