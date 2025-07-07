@@ -1,7 +1,5 @@
     # Signal Annotator
 
-    ![Signal Annotator Screenshot](https://via.placeholder.com/800x400?text=Signal+Annotator+Screenshot)
-
     **Signal Annotator** is a Python GUI application for visualizing time-series data and annotating events in signals. Built with Tkinter and Matplotlib.
 
     ---
