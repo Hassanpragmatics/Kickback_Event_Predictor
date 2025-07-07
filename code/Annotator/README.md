@@ -37,3 +37,12 @@ pip install pandas matplotlib
 - Create a data/ directory (if it doesn't exist) and place your CSV time-series files inside.
 
 - Run the application:
+```bash
+python annotator.py
+```
+Use the interface:
+- Click "Load Next CSV" to load files sequentially
+- Click on the plot to mark event start/end times
+- Click "Undo" to remove the last annotation
+- Click "Save All Annotations" to export annotations to CSV
+
