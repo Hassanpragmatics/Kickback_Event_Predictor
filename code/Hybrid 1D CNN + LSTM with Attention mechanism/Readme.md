@@ -12,7 +12,6 @@ This project predicts machine failures using sensor data analysis with deep lear
 
 ## Requirements
 - Python 3.8+
-- Libraries in `requirements.txt`:
 - numpy
 - pandas
 - torch
@@ -47,20 +46,21 @@ python train.py
 
 ## Output includes:
 
-Training progress logs
-Model performance metrics
+- Training progress logs
+- Model performance metrics
 
 ## Visualizations in root directory:
 
-training_history.png
-threshold_selection.png
-precision_recall_curve.png
-event_prediction.png
+- training_history.png
+- threshold_selection.png
+- precision_recall_curve.png
+- event_prediction.png
 
 # Configuration
 
 Key parameters in code:
 
+ ```bash
 annotations_path = 'annotations/model_mid.csv'  # Annotation file path
 data_root = 'data'               # Sensor data directory
 patch_size = 500                 # Input sequence length
@@ -68,3 +68,4 @@ stride = 100                     # Sliding window step
 future_window = 100              # Prediction horizon
 warning_buffer = 0.5             # Warning extension (seconds)
 min_positive_samples = 1         # Min positive samples per file
+ ```
