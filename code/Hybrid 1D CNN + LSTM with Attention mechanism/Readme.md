@@ -37,11 +37,11 @@ Hybrid 1D CNN + LSTM with Attention mechanism
 │   └── model_mid.csv       # Main annotation file
 ├── lstm_model.py                # Main training script
 └── best_models/model.pth # Trained model (generated)
-How to Run
+## How to Run
 Execute the main script:
 
  ```bash
-python train.py
+python lstm_model.py
  ```
 
 ## Output includes:
