@@ -1,0 +1,144 @@
+Backlog Prediction Code Explanation
+
+1. Configuration Section
+
+python:
+
+  csv_path = 'data/Parameterset_1/_2024-12-11_13-19-10.csv'
+  backlog_start = 821694
+  backlog_end = 841696
+  patch_size = 1000
+  stride = 100
+  future_window = 2000
+  sensor_cols = [ ... ]
+  time_column = 'Time'
+  csv_path: Location of input data file
+
+backlog_start/end: Indices of known backlog event
+patch_size: Number of samples in each input segment
+stride: Step size for sliding window
+future_window: Lookahead window for labeling
+sensor_cols: Relevant sensor columns for prediction
+
+2. Data Loading and Cleaning
+
+python:
+
+  df = pd.read_csv(csv_path, encoding="cp1252", sep=";", skiprows=31)
+  # ... cleaning operations ...
+  Reads CSV with European encoding (cp1252)
+  Skips 31 rows of metadata
+  Cleans column names and removes empty columns
+  Converts European decimals (comma → period)
+  Handles missing values and data type conversions
+
+3. Signal Normalization
+
+python:
+
+  for col in sensor_cols:
+      min_val = df_normalized[col].min()
+      max_val = df_normalized[col].max()
+      # Apply min-max scaling
+
+Normalizes each sensor column to [0,1] range
+Handles constant value columns (avoid division by zero)
+Preserves relationships between sensor readings
+
+4. Label Creation
+
+python:
+
+  df_normalized['backlog'] = 0
+  warning_window = 1000
+  df_normalized.loc[warn_start:warn_end, 'backlog'] = 1
+  Creates binary label column 'backlog'
+
+Marks 1000 samples before actual backlog as warning period
+Defines the prediction target for the model
+
+5. Patch Creation and Dataset Balancing
+
+python:
+
+  def create_patches(signals, labels, patch_size, stride, future_window): 
+
+implementation  
+Creates fixed-length patches using sliding window
+Labels patch positive if backlog occurs within future_window
+Balances dataset by undersampling negative cases
+Maintains 2:1 negative:positive ratio
+
+6. CNN Model Architecture
+
+python:
+
+  model = models.Sequential([
+      layers.Conv1D(32, 5, activation='relu'),
+      layers.MaxPooling1D(2),
+      layers.Conv1D(64, 3, activation='relu'),
+      layers.GlobalAveragePooling1D(),
+      layers.Dense(64, activation='relu'),
+      layers.Dense(1, activation='sigmoid')
+  ])
+
+Two 1D convolutional layers for feature extraction
+Max pooling for dimensionality reduction
+Global average pooling before classification layers
+Sigmoid output for binary prediction
+
+7. Training Configuration
+
+python:
+
+  model.compile(optimizer='adam', 
+                loss='binary_crossentropy', 
+                metrics=['accuracy'])
+  model.fit(X_train, y_train, 
+            validation_data=(X_test, y_test), 
+            epochs=200, 
+            batch_size=32)
+  
+Uses Adam optimizer with default parameters
+Binary cross-entropy loss function
+Trains for 200 epochs with batch size 32
+Uses 20% of data for validation
+
+8. Prediction and Lead Time Calculation
+
+python:
+
+  def sliding_predict(model, signals, patch_size, stride):
+      # ... sliding window prediction ...
+  # Find first warning before backlog
+  threshold = 0.7
+  for i, prob in enumerate(pred_probs):
+      ... threshold check ...
+
+Applies trained model to entire signal
+Uses same sliding window as training
+Finds first prediction exceeding threshold
+Calculates time difference between warning and actual backlog
+
+9. Result Visualization
+
+python:
+
+  plt.figure(figsize=(15, 5))
+  plt.plot(labels, label='True Backlog', alpha=0.3)
+  plt.plot(time_axis, pred_probs, label='Predicted Risk')
+  
+... annotation and markers ...
+Plots true labels vs predicted probabilities
+Marks actual backlog start with vertical line
+Shows predicted warning point (if detected)
+Annotates with lead time information
+Creates comprehensive performance visualization
+
+Workflow Summary
+
+Data Preparation: Load → Clean → Normalize
+Feature Engineering: Create labeled patches=
+Model Training: Build and train 1D CNN
+Prediction: Detect warnings in full signal
+Evaluation: Calculate lead time and visualize
