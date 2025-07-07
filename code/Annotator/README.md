@@ -46,3 +46,11 @@ Use the interface:
 - Click "Undo" to remove the last annotation
 - Click "Save All Annotations" to export annotations to CSV
 
+## File Structure
+```bash
+project-root/
+├── data/            # Folder for input CSV files
+├── annotator.py     # Main application code
+└── README.md        # This documentation
+```
+
