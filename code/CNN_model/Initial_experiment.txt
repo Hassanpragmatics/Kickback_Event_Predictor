@@ -5,7 +5,6 @@ patch_size = 1000
 stride = 100
 future_window = 2000
 
-Accuracy: 96.75
 results: 131.880 ms predicted before the kickback event
 
 
