@@ -1,0 +1,118 @@
+Industrial Machinery Failure Prediction System
+
+1. Data Loading
+
+python:
+
+  annotations = pd.read_csv(annotations_path)
+  Loads machine failure annotations with file paths and event timestamps
+
+2. Data Preprocessing
+
+python:
+  df['Time_seconds'] = df['Time'].apply(parse_time)
+  Converts time formats to seconds and detects sampling rate
+
+Handles different time formats (HH:MM:SS, MM:SS, seconds)
+Cleans sensor data and fills missing values
+
+3. Label Engineering
+
+python:
+  labels[warning_start_idx:end_idx+1] = 1  # Warning state
+  labels[event_start_idx:event_end_idx+1] = 2  # Event state
+
+Creates 3-state labels:
+
+  0: Normal operation
+  1: Warning period (including buffer before failure)
+  2: Failure event period
+
+4. Patch Creation
+
+python:
+  def create_patches(signals, labels, patch_size, stride, future_window):
+
+Generates input sequences with future-based labels:
+Positive sample if failure occurs within future_window 
+Negative sample otherwise
+Uses sliding window with configurable stride
+
+5. Model Architecture
+
+python:
+
+  class EventPredictor(nn.Module):
+
+Combines:
+  3 Convolutional layers for feature extraction
+  Attention mechanism to focus on important signals
+  Bidirectional LSTMs for temporal pattern recognition
+  Fully connected layers for prediction
+
+6. Training Pipeline
+
+python:
+
+  criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
+  optimizer = optim.AdamW(model.parameters(), lr=0.0001)
+
+Uses:
+
+Weighted loss for class imbalance
+Learning rate scheduling
+Early stopping
+Gradient clipping
+
+7. Evaluation
+  
+  python:
+
+    roc_auc_score(all_labels, all_outputs)
+    precision_recall_curve(all_labels, all_outputs)
+
+Calculates:
+
+ROC AUC
+Precision-Recall AUC
+Optimal threshold via F1 maximization
+Classification reports
+
+8. Visualization
+
+  python:
+
+    plt.axvspan(warning_start_time, warning_end_time, ...)
+    plt.plot(smoothed_prediction_times, smoothed_probs)
+
+Generates:
+  Sensor data with annotation zones
+  Prediction probabilities over time
+  Warning lead time indicators
+  Training history plots
+
+Customization
+To adapt for your use case:
+
+Update sensor columns:
+python
+sensor_cols = [
+    'Your_Sensor1', 'Your_Sensor2', 
+    'Your_Sensor3', 'Time'
+]
+Adjust time parsing for your format in parse_time():
+
+python:
+  def parse_time(time_str):
+    # Add your custom time format handling here
+
+    Modify model parameters:
+    patch_size = 600       # Input sequence length
+    stride = 75            # Sliding window step
+    future_window = 120    # Prediction horizon
+    warning_buffer = 0.8   # Warning extension before failure (seconds)
+
+    Tune training settings:
+    batch_size = 128
+    epochs = 150
+    min_positive_samples = 2
