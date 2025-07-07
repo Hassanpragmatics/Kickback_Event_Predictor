@@ -32,9 +32,10 @@ graph TD
 
 ## Installation
 ``` bash
-git clone https://github.com/yourusername/sensor-anomaly-prediction.git
-cd sensor-anomaly-prediction
-pip install -r requirements.txt
+git clone https://github.com/Hassanpragmatics/Kickback_Event_Predictor/.git
+cd code
+cd Improved Lstm
+cd Using_one_by_third_dataset
 ```
 
 ## Usage
